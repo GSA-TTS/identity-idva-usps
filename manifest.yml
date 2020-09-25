@@ -4,5 +4,6 @@ applications:
     buildpacks: 
       - java_buildpack
     path: target/gsa-give-ipp-usps-0.0.1-SNAPSHOT.jar
+    random-route: true
     services:
-      - give-data
+      - give-ipp-usps-data
