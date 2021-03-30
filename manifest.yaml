@@ -1,8 +1,15 @@
 ---
 applications:
   - name: usps
-    buildpacks:
-      - python_buildpack
-    random-route: true
+    routes:
+      - route: ((ROUTE))
+    memory: ((MEMORY))
+    instances: ((INSTANCES))
     services:
       - usps-db
+    buildpacks:
+      - python_buildpack
+    env:
+      SECRET_KEY: ((SECRET_KEY))
+      DJANGO_SETTINGS_MODULE: usps.settings
+      TRANSACTION_ROUTE: ((TRANSACTION_ROUTE))
