@@ -1,0 +1,8 @@
+---
+applications:
+  - name: usps
+    buildpacks:
+      - python_buildpack
+    random-route: true
+    services:
+      - usps-db
