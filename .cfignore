@@ -1,0 +1,4 @@
+*.md
+.venv/
+api/__pycache__/
+usps/__pycache__/
