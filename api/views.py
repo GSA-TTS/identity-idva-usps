@@ -1,8 +1,7 @@
 """ Views for USPS API """
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from django.http import JsonResponse
 
 
-@api_view()
-def hello_world(request):
-    return Response({"message": "Hello, world!"})
+async def hello_world(_request):
+    """ Hello world view """
+    return JsonResponse({"message": "Hello, world!"})
