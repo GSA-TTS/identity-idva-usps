@@ -1,6 +1,4 @@
-from django.urls import path
-from usps import views
+""" USPS Project URL definitions """
+from django.urls import include, path
 
-urlpatterns = [
-    path("hello", views.hello_world, name="hello"),
-]
+urlpatterns = [path("usps/", include("api.urls"))]
