@@ -15,7 +15,15 @@ credentials = service_account.IDTokenCredentials.from_service_account_info(
     target_audience="270619257825-1lduq3l1s7d2m6tdtjhfd7bi4686s3eu.apps.googleusercontent.com",
 )
 authed_session = AuthorizedSession(credentials)
-authed_session.verify = "cat-aii-root.cer"
+
+CERT_PATH = "/home/vcap/app/usps.cer"
+with open(CERT_PATH, "w") as certfile:
+    certfile.write("-----BEGIN CERTIFICATE-----\n")
+    cert_string = os.environ["USPS_CERT"].replace(" ", "\n")
+    certfile.write(cert_string)
+    certfile.write("\n-----END CERTIFICATE-----")
+
+authed_session.verify = CERT_PATH
 
 
 async def confidence_indicator(request):
