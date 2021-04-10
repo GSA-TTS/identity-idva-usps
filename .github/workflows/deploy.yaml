@@ -91,7 +91,10 @@ jobs:
           --var SECRET_KEY=${{ secrets.SECRET_KEY }}
           --var ROUTE=${{ steps.deployment-target.outputs.ROUTE }}
           --var TRANSACTION_ROUTE=${{ steps.deployment-target.outputs.TRANSACTION_ROUTE }}
+          --var USPS_SERVICE_INFO=${{ secrets.USPS_SERVICE_INFO }}
+          --var USPS_TARGET_AUDIENCE=${{ secrets.USPS_TARGET_AUDIENCE }}
           --strategy rolling
+
 
       - name: Apply CF Network Policies
         run: cf add-network-policy usps transaction-log
