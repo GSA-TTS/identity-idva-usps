@@ -1,29 +1,22 @@
 """ Views for USPS API """
-import uuid
 import json
 import os
+import base64
 from django.http import JsonResponse, HttpResponseBadRequest
 from google.oauth2 import service_account
 from google.auth.transport.requests import AuthorizedSession
 from api import transaction_log
 
-USPS_UUID = str(uuid.uuid4())
+
+USPS_UUID = "5738f577-d283-49ec-9695-32b106c049d8"
 
 # Create USPS credentials
 credentials = service_account.IDTokenCredentials.from_service_account_info(
-    json.loads(os.environ["USPS_SERVICE_INFO"]),
-    target_audience="270619257825-1lduq3l1s7d2m6tdtjhfd7bi4686s3eu.apps.googleusercontent.com",
+    json.loads(base64.b64decode(os.environ["USPS_SERVICE_INFO"])),
+    target_audience=os.environ["USPS_TARGET_AUDIENCE"],
 )
 authed_session = AuthorizedSession(credentials)
-
-CERT_PATH = "/home/vcap/app/usps.cer"
-with open(CERT_PATH, "w") as certfile:
-    certfile.write("-----BEGIN CERTIFICATE-----\n")
-    cert_string = os.environ["USPS_CERT"].replace(" ", "\n")
-    certfile.write(cert_string)
-    certfile.write("\n-----END CERTIFICATE-----")
-
-authed_session.verify = CERT_PATH
+authed_session.verify = "cat-aii-root.cer"
 
 
 async def confidence_indicator(request):
