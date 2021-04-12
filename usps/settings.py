@@ -5,6 +5,10 @@ Django settings for usps project.
 import os
 from pathlib import Path
 
+# USPS-specific settings
+USPS_SERVICE_INFO = os.environ["USPS_SERVICE_INFO"]
+USPS_TARGET_AUDIENCE = os.environ["USPS_TARGET_AUDIENCE"]
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
