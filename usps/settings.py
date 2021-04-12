@@ -19,8 +19,8 @@ DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 # USPS-specific settings
 if not DEBUG:
-    USPS_SERVICE_INFO = os.environ["USPS_SERVICE_INFO"]
-    USPS_TARGET_AUDIENCE = os.environ["USPS_TARGET_AUDIENCE"]
+    USPS_SERVICE_INFO = os.environ.get("USPS_SERVICE_INFO")
+    USPS_TARGET_AUDIENCE = os.environ.get("USPS_TARGET_AUDIENCE")
 
 # Set production renderer to JSONRenderer instead of the browsable API
 if not DEBUG:
