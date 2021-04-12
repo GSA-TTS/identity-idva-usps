@@ -43,7 +43,8 @@ async def confidence_indicator(request):
     except json.JSONDecodeError as error:
         return JsonResponse({"error": "Request body was not valid JSON"}, status=400)
     except KeyError as error:
-        return JsonResponse({"error": f"Missing field: {error}"}, status=400)
+        logging.error("Missing field in request body: %s", error)
+        return JsonResponse({"error": "Missing field in request."}, status=400)
 
     if settings.DEBUG:
         logging.debug("Skipping network requests while in debug mode")
@@ -69,6 +70,5 @@ async def confidence_indicator(request):
                 body = await response.read()
             return HttpResponse(body, response.status)
     except aiohttp.ClientError as error:
-        return JsonResponse(
-            {"error": f"aiohttp error while validating address: {error}"}
-        )
+        logging.error("Aiohttp error: %s", error)
+        return JsonResponse({"error": "aiohttp client error while validating address"})
