@@ -5,10 +5,6 @@ Django settings for usps project.
 import os
 from pathlib import Path
 
-# USPS-specific settings
-USPS_SERVICE_INFO = os.environ["USPS_SERVICE_INFO"]
-USPS_TARGET_AUDIENCE = os.environ["USPS_TARGET_AUDIENCE"]
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -20,6 +16,11 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG set is set to True if env var is "True"
 DEBUG = os.environ.get("DEBUG", "False") == "True"
+
+# USPS-specific settings
+if not DEBUG:
+    USPS_SERVICE_INFO = os.environ["USPS_SERVICE_INFO"]
+    USPS_TARGET_AUDIENCE = os.environ["USPS_TARGET_AUDIENCE"]
 
 # Set production renderer to JSONRenderer instead of the browsable API
 if not DEBUG:
