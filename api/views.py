@@ -15,14 +15,13 @@ USPS_UUID = "5738f577-d283-49ec-9695-32b106c049d8"
 USPS_URL = "https://cat-aii.usps.gov/"
 
 # Create USPS credentials
-credentials = service_account.IDTokenCredentials.from_service_account_info(
-    json.loads(base64.b64decode(settings.USPS_SERVICE_INFO)),
-    target_audience=settings.USPS_TARGET_AUDIENCE,
-)
-credentials.refresh(Request())
-sslcontext = ssl.create_default_context(cafile="cat-aii-root.cer")
-# authed_session = AuthorizedSession(credentials)
-# authed_session.verify = "cat-aii-root.cer"
+if not settings.DEBUG:
+    credentials = service_account.IDTokenCredentials.from_service_account_info(
+        json.loads(base64.b64decode(settings.USPS_SERVICE_INFO)),
+        target_audience=settings.USPS_TARGET_AUDIENCE,
+    )
+    credentials.refresh(Request())
+    sslcontext = ssl.create_default_context(cafile="cat-aii-root.cer")
 
 
 async def confidence_indicator(request):
