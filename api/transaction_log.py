@@ -9,7 +9,7 @@ from django.http import JsonResponse
 TRANSACTION_ROUTE = os.environ.get("TRANSACTION_ROUTE")
 TRANSACTION_URL = f"http://{TRANSACTION_ROUTE}:8080/transaction/"
 
-_DEBUG_RESPONSE = JsonResponse({"record_uuid": "fake-uuid"})
+DEBUG_RESPONSE = JsonResponse({"record_uuid": "fake-uuid"})
 
 transaction_unavailable_response = JsonResponse(
     {
@@ -27,7 +27,7 @@ async def create_transaction(csp: str, cost=0, result=None) -> JsonResponse:
     """
     if settings.DEBUG:
         logging.debug("Skipping transaction logging while in debug mode")
-        return _DEBUG_RESPONSE  # Skip sending a transaction log in debug mode
+        return DEBUG_RESPONSE  # Skip sending a transaction log in debug mode
 
     payload = {
         "service_type": "PROOFING SERVICE",
@@ -55,7 +55,7 @@ async def update_transaction_result(record_uuid: str, result: str) -> JsonRespon
     """
     if settings.DEBUG:
         logging.debug("Skipping transaction logging update while in debug mode")
-        return _DEBUG_RESPONSE  # Skip sending a transaction log in debug mode
+        return DEBUG_RESPONSE  # Skip sending a transaction log in debug mode
 
     url = f"{TRANSACTION_URL}{record_uuid}/"
 
