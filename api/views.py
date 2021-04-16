@@ -3,7 +3,8 @@ import json
 import base64
 import logging
 import ssl
-import aiohttp
+from http import HTTPStatus
+from aiohttp import ClientSession, ClientError
 from django.conf import settings
 from django.http import JsonResponse, HttpResponse
 from google.oauth2 import service_account
@@ -26,48 +27,32 @@ if not settings.DEBUG:
 
 async def confidence_indicator(request):
     """ USPS AII API view """
-    # Ensure the request contained the required fields and build the
-    # USPS request payload
-    try:
-        json_body = json.loads(request.body)
-        payload = {
-            "uid": USPS_UUID,
-            "first_name": json_body["first_name"],
-            "last_name": json_body["last_name"],
-            "middle_name": json_body["middle_name"],
-            "suffix": json_body["suffix"],
-            "delivery_address": json_body["delivery_address"],
-            "address_city_state_zip": json_body["address_city_state_zip"],
-        }
-    except json.JSONDecodeError as error:
-        return JsonResponse({"error": "Request body was not valid JSON"}, status=400)
-    except KeyError as error:
-        logging.error("Missing field in request body: %s", error)
-        return JsonResponse({"error": "Missing field in request."}, status=400)
-
     if settings.DEBUG:
         logging.debug("Skipping network requests while in debug mode")
         return JsonResponse({"uid": USPS_UUID, "confidence_indicator": "50.00"})
 
-    # Log the transaction
-    csp_id = request.META["HTTP_X_CONSUMER_CUSTOM_ID"]
-    log_response = await transaction_log.create_transaction(csp_id)
-
-    if log_response.status_code != 200:
-        return log_response
-
     # Ensure USPS credentials are valid and post to USPS address validation API
     if not credentials.valid:
         credentials.refresh(Request())
+        logging.info("Refreshed credentials")
 
-    headers = {"authorization": f"bearer {credentials.token}"}
+    csp_id = request.META["HTTP_X_CONSUMER_CUSTOM_ID"]
+
+    headers = {
+        "authorization": f"bearer {credentials.token}",
+        "content-type": "application/json",
+    }
 
     try:
-        async with aiohttp.ClientSession(headers=headers) as session:
-            async with session.post(USPS_URL, json=payload, ssl=sslcontext) as response:
-                # See if you can avoid the json serialization/deserialization here
-                body = await response.read()
-            return HttpResponse(body, response.status)
-    except aiohttp.ClientError as error:
+        async with ClientSession(headers=headers) as session:
+            log_response = await transaction_log.create_transaction(session, csp_id)
+            if log_response.status_code != HTTPStatus.CREATED:
+                return transaction_log.transaction_unavailable_response
+
+            async with session.post(
+                USPS_URL, data=request.body, ssl=sslcontext
+            ) as response:
+                return HttpResponse(await response.read(), response.status)
+    except ClientError as error:
         logging.error("Aiohttp error: %s", error)
-        return JsonResponse({"error": "aiohttp client error while validating address"})
+        return JsonResponse({"error": "ClientError while validating address"})
