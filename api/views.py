@@ -52,7 +52,7 @@ async def confidence_indicator(request):
             async with session.post(
                 USPS_URL, data=request.body, ssl=sslcontext
             ) as response:
-                return HttpResponse(await response.read(), response.status)
+                return HttpResponse(await response.read(), status=response.status)
     except ClientError as error:
         logging.error("Aiohttp error: %s", error)
         return JsonResponse({"error": "ClientError while validating address"})
