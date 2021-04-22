@@ -22,6 +22,10 @@ if not DEBUG:
     USPS_SERVICE_INFO = os.environ.get("USPS_SERVICE_INFO")
     USPS_TARGET_AUDIENCE = os.environ.get("USPS_TARGET_AUDIENCE")
     TRANSACTION_ROUTE = os.environ.get("TRANSACTION_ROUTE")
+else:
+    USPS_SERVICE_INFO = {}
+    USPS_TARGET_AUDIENCE = {}
+    TRANSACTION_ROUTE = "localhost"
 
 # Set production renderer to JSONRenderer instead of the browsable API
 if not DEBUG:

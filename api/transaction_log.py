@@ -4,7 +4,6 @@ import aiohttp
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 
-# TRANSACTION_URL = "http://localhost:8000/transaction/"
 TRANSACTION_ROUTE = settings.TRANSACTION_ROUTE
 TRANSACTION_URL = f"http://{TRANSACTION_ROUTE}:8080/transaction/"
 
