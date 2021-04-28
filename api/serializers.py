@@ -8,8 +8,8 @@ class ConfidenceIndicatorRequestSerializer(serializers.Serializer):
     uid = serializers.UUIDField()
     first_name = serializers.CharField()
     last_name = serializers.CharField()
-    middle_name = serializers.CharField()
-    suffix = serializers.CharField()
+    middle_name = serializers.CharField(required=False)
+    suffix = serializers.CharField(required=False)
     delivery_address = serializers.CharField()
     address_city_state_zip = serializers.CharField()
 
