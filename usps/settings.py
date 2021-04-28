@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "api.apps.ApiConfig",
     "django.contrib.staticfiles",
+    "rest_framework",
     "drf_yasg",
 ]
 
