@@ -10,8 +10,7 @@ from django.http import JsonResponse, HttpResponse
 from google.oauth2 import service_account
 from google.auth.transport.requests import Request
 from api import transaction_log
-from drf_yasg.utils import swagger_auto_schema
-from rest_framework.decorators import api_view
+
 
 USPS_UUID = "5738f577-d283-49ec-9695-32b106c049d8"
 USPS_URL = "https://cat-aii.usps.gov/"
@@ -26,7 +25,6 @@ if not settings.DEBUG:
     sslcontext = ssl.create_default_context(cafile="cat-aii-root.cer")
 
 
-@api_view(["POST"])
 async def confidence_indicator(request):
     """ USPS AII API view """
     if settings.DEBUG:
