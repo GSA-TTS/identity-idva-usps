@@ -17,13 +17,6 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 # DEBUG set is set to True if env var is "True"
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-# Static file settings
-STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "usps/static")
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
-
-
 # Deployment-specific settings
 if not DEBUG:
     USPS_SERVICE_INFO = os.environ.get("USPS_SERVICE_INFO")
@@ -53,9 +46,6 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "api.apps.ApiConfig",
-    "django.contrib.staticfiles",
-    "rest_framework",
-    "drf_yasg",
 ]
 
 MIDDLEWARE = [
@@ -64,7 +54,6 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = "usps.urls"
