@@ -88,7 +88,6 @@ jobs:
 
       - name: Deploy application
         run: cf push --vars-file vars.yaml
-          --var SECRET_KEY=${{ secrets.SECRET_KEY }}
           --var ROUTE=${{ steps.deployment-target.outputs.ROUTE }}
           --var TRANSACTION_ROUTE=${{ steps.deployment-target.outputs.TRANSACTION_ROUTE }}
           --var USPS_SERVICE_INFO=${{ secrets.USPS_SERVICE_INFO }}
