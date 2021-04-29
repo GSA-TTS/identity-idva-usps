@@ -1,23 +1,23 @@
 """ Transaction Logging functionality """
 import logging
 import aiohttp
-from django.conf import settings
-from django.http import HttpResponse, JsonResponse
+from usps.config import settings
+from fastapi.responses import JSONResponse
 
 TRANSACTION_ROUTE = settings.TRANSACTION_ROUTE
 TRANSACTION_URL = f"http://{TRANSACTION_ROUTE}:8080/transaction/"
 
-transaction_unavailable_response = JsonResponse(
-    {
+transaction_unavailable_response = JSONResponse(
+    status_code=503,
+    content={
         "error": "Transaction service temporarily unavailable. Check system logs for more information."
     },
-    status=503,
 )
 
 
 async def create_transaction(
     session: aiohttp.ClientSession, csp: str, cost=0, result=None
-) -> HttpResponse:
+) -> JSONResponse:
     """
     Log a transaction to the transaction logging microservice.
     Returns the transaction log information on success, otherwise a 503 response
@@ -35,7 +35,7 @@ async def create_transaction(
         async with session.post(TRANSACTION_URL, json=payload) as response:
             response.raise_for_status()
             body = await response.read()
-            return HttpResponse(body, status=response.status)
+            return JSONResponse(status_code=response.status, content=body)
     except aiohttp.ClientError as error:
         logging.error("Create transaction request raised exception: %s", error)
         return transaction_unavailable_response
