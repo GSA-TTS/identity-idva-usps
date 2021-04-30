@@ -1,1 +1,1 @@
-web: daphne --port $PORT --bind 0.0.0.0 usps.asgi:application --access-log - 
+web: uvicorn usps.main:app --host 0.0.0.0 --port $PORT
