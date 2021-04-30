@@ -5,6 +5,7 @@ from usps import transaction_log
 from http import HTTPStatus
 from fastapi import FastAPI, Header
 from fastapi.responses import JSONResponse
+from aiohttp import ClientSession, ClientError
 from pydantic import BaseModel
 from typing import Optional
 from uuid import UUID, uuid4
@@ -16,7 +17,6 @@ app = FastAPI()
 
 
 class PersonalInfo(BaseModel):
-    uid: Optional[UUID] = None
     first_name: str
     last_name: str
     middle_name: Optional[str] = None
@@ -77,7 +77,7 @@ async def confidence_indicator(
                 return transaction_log.transaction_unavailable_response
 
             async with session.post(
-                USPS_URL, data=request.body, ssl=sslcontext
+                USPS_URL, data=person.dict(), ssl=sslcontext
             ) as response:
                 return JSONResponse(
                     status_code=response.status, content=await response.read()
