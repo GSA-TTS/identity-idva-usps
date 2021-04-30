@@ -1,7 +1,7 @@
 """ USPS API unit tests """
 import json
 from http import HTTPStatus
-from .main import app
+from usps.main import app
 from fastapi.testclient import TestClient
 
 client = TestClient(app)
