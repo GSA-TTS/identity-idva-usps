@@ -1,5 +1,4 @@
 aiohttp ~= 3.7
-daphne ~= 3.0
 twisted[tls, http2]
 google-auth
 requests
