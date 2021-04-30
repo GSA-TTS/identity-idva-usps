@@ -48,7 +48,7 @@ if not settings.DEBUG:
 
 
 @app.post(
-    "/person",
+    "/confidence_indicator",
     response_model=VerifiedResponse,
     responses={400: {"model": ErrorResponse}, 500: {"model": ErrorResponse}},
 )
