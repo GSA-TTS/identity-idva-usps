@@ -16,7 +16,7 @@ from google.auth.transport.requests import Request
 app = FastAPI()
 
 
-class PersonalInfo(BaseModel):
+class AddressVerificationInfo(BaseModel):
     first_name: str
     last_name: str
     middle_name: Optional[str] = None
@@ -53,7 +53,8 @@ if not settings.DEBUG:
     responses={400: {"model": ErrorResponse}, 500: {"model": ErrorResponse}},
 )
 async def confidence_indicator(
-    person: PersonalInfo, http_x_consumer_custom_id: str = Header(None)
+    address_verification_info: AddressVerificationInfo,
+    http_x_consumer_custom_id: str = Header(None),
 ):
     if settings.DEBUG:
         logging.debug("Skipping network requests while in debug mode")
@@ -77,7 +78,7 @@ async def confidence_indicator(
                 return transaction_log.transaction_unavailable_response
 
             async with session.post(
-                USPS_URL, data=person.dict(), ssl=sslcontext
+                USPS_URL, data=address_verification_info.dict(), ssl=sslcontext
             ) as response:
                 return JSONResponse(
                     status_code=response.status, content=await response.read()
