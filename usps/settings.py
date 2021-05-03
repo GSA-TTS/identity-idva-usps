@@ -1,5 +1,5 @@
 """
-Configuration for USPS Microservice environmental variables.
+Configuration for the USPS microservice settings.
 Context is switched based on if the app is in debug mode.
 """
 import os
