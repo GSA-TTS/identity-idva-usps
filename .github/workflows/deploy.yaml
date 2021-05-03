@@ -35,7 +35,7 @@ jobs:
           pip install pytest
       - name: Test with Pytest unit tests
         run: |
-          export $DEBUG=True
+          export DEBUG=True
           pytest usps/tests.py
 
   deploy:
