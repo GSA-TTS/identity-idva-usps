@@ -10,4 +10,4 @@ repos:
     rev: 1.7.0
     hooks:
       - id: bandit
-        exclude: api/tests
+        exclude: usps/tests.py
