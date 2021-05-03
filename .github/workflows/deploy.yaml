@@ -32,12 +32,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Test with Django unit tests
-        env:
-          # For unit tests, secret_key just needs to be populated.
-          # It will only ever access a temporary Django test database.
-          SECRET_KEY: unit-test-fake-secret-key-#5TY90
-        run: python manage.py test --debug-mode
+          pip install pytest
+      - name: Test with Pytest unit tests
+        run: |
+          export DEBUG=True
+          pytest usps/tests.py
 
   deploy:
     if: github.repository_owner == '18F'
@@ -88,7 +87,6 @@ jobs:
 
       - name: Deploy application
         run: cf push --vars-file vars.yaml
-          --var SECRET_KEY=${{ secrets.SECRET_KEY }}
           --var ROUTE=${{ steps.deployment-target.outputs.ROUTE }}
           --var TRANSACTION_ROUTE=${{ steps.deployment-target.outputs.TRANSACTION_ROUTE }}
           --var USPS_SERVICE_INFO=${{ secrets.USPS_SERVICE_INFO }}
