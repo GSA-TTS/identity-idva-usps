@@ -9,7 +9,7 @@ class DebugContext(BaseSettings):
 
 
 class ProdContext(BaseSettings):
-    DEBUG: Optional[str] = "False"
+    DEBUG: Optional[bool] = False
     USPS_SERVICE_INFO: str
     USPS_TARGET_AUDIENCE: str
     TRANSACTION_ROUTE: str
