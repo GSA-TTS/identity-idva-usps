@@ -1,8 +1,8 @@
 """ Transaction Logging functionality """
 import logging
 import aiohttp
-from usps import settings
 from fastapi.responses import JSONResponse
+from usps import settings
 
 TRANSACTION_ROUTE = settings.TRANSACTION_ROUTE
 TRANSACTION_URL = f"http://{TRANSACTION_ROUTE}:8080/transaction/"
