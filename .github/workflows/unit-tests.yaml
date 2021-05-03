@@ -30,7 +30,6 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
       - name: Test with Pytest unit tests
-        env:
-          # Enable the debug flag
-          DEBUG: True
-        run: pytest usps/tests.py
+        run: |
+          export $DEBUG=True
+          pytest usps/tests.py
