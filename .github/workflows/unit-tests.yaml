@@ -32,5 +32,5 @@ jobs:
       - name: Test with Pytest unit tests
         env:
           # Enable the debug flag
-          DEBUG: "True"
+          DEBUG: True
         run: pytest usps/tests.py
