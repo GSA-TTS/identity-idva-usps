@@ -26,8 +26,8 @@ def test_successful_response():
     assert response.status_code == 200
 
 
-def test_failed_response_missing_request_body_parameters():
-    """ Test fail 422 response from USPS Microservice with missing parameters """
+def test_failed_response_missing_first_name():
+    """ Test fail 422 response from USPS Microservice with missing first_name """
 
     request = {
         "last_name": "Smith",
@@ -37,6 +37,10 @@ def test_failed_response_missing_request_body_parameters():
     response = usps_microservice_request(request)
     assert response.status_code == 422
 
+
+def test_failed_response_missing_last_name():
+    """ Test fail 422 response from USPS Microservice with missing last_name """
+
     request = {
         "first_name": "James",
         "delivery_address": "123 Test Road",
@@ -45,6 +49,10 @@ def test_failed_response_missing_request_body_parameters():
     response = usps_microservice_request(request)
     assert response.status_code == 422
 
+
+def test_failed_response_missing_delivery_address():
+    """ Test fail 422 response from USPS Microservice with missing delivery_address """
+
     request = {
         "first_name": "James",
         "last_name": "Smith",
@@ -52,6 +60,10 @@ def test_failed_response_missing_request_body_parameters():
     }
     response = usps_microservice_request(request)
     assert response.status_code == 422
+
+
+def test_failed_response_missing_address_city_state_zip():
+    """ Test fail 422 response from USPS Microservice with missing address_city_state_zip """
 
     request = {
         "first_name": "James",
