@@ -1,7 +1,7 @@
 """ Transaction Logging functionality """
 import logging
 import aiohttp
-from usps.config import settings
+from usps import settings
 from fastapi.responses import JSONResponse
 
 TRANSACTION_ROUTE = settings.TRANSACTION_ROUTE
