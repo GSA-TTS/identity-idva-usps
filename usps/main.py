@@ -23,7 +23,7 @@ app = FastAPI()
 
 class AddressVerificationInfo(BaseModel):
     """
-    Request model used for generating documentation and input validation.
+    Request model for the USPS AII /confidence_indicator API.
     """
 
     first_name: str
@@ -36,7 +36,7 @@ class AddressVerificationInfo(BaseModel):
 
 class VerifiedResponse(BaseModel):
     """
-    Response model returning a success used for generating documentation.
+    Response model for valid (2XX) responses from the USPS API.
     """
 
     uid: UUID
@@ -45,7 +45,7 @@ class VerifiedResponse(BaseModel):
 
 class ErrorResponse(BaseModel):
     """
-    Response model returning a failure used for generating documentation.
+    Response model for failed (non-2XX) responses from the USPS API.
     """
 
     uid: UUID
