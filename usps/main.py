@@ -1,23 +1,31 @@
+"""
+USPS Microservice FastAPI Web App.
+"""
+
 import json
 import logging
 import ssl
 import base64
-from usps import transaction_log
+from typing import Optional
+from uuid import UUID
 from http import HTTPStatus
 from fastapi import FastAPI, Header
 from fastapi.responses import JSONResponse
 from aiohttp import ClientSession, ClientError
 from pydantic import BaseModel
-from typing import Optional
-from uuid import UUID, uuid4
-from usps.config import settings
 from google.oauth2 import service_account
 from google.auth.transport.requests import Request
+from usps.config import settings
+from usps import transaction_log
 
 app = FastAPI()
 
 
 class AddressVerificationInfo(BaseModel):
+    """
+    Request model used for generating documentation and input validation.
+    """
+
     first_name: str
     last_name: str
     middle_name: Optional[str] = None
@@ -27,11 +35,19 @@ class AddressVerificationInfo(BaseModel):
 
 
 class VerifiedResponse(BaseModel):
+    """
+    Response model returning a success used for generating documentation.
+    """
+
     uid: UUID
     confidence_indicator: str
 
 
 class ErrorResponse(BaseModel):
+    """
+    Response model returning a failure used for generating documentation.
+    """
+
     uid: UUID
     error: str
 
@@ -57,6 +73,10 @@ async def confidence_indicator(
     address_verification_info: AddressVerificationInfo,
     http_x_consumer_custom_id: str = Header(None),
 ):
+    """
+    Confidence Indicator function that proxies requests to the USPS API.
+    """
+
     if settings.DEBUG:
         logging.debug("Skipping network requests while in debug mode")
         return JSONResponse({"uid": USPS_UUID, "confidence_indicator": "50.00"})
