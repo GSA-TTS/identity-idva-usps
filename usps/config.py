@@ -4,7 +4,7 @@ from typing_extensions import Literal
 
 
 class DebugContext(BaseSettings):
-    DEBUG: Literal["True"]
+    DEBUG: Literal[True]
     TRANSACTION_ROUTE: ClassVar[str] = "localhost"
 
 
