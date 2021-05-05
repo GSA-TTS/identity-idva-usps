@@ -53,7 +53,7 @@ uvicorn usps.main:app
 
 ### Viewing API Endpoints and documentation
 Documentation can be viewed locally by running the application and visiting
-http://127.0.0.1:8000/docs
+http://127.0.0.1:8000/redoc
 
 ### Deploying to Cloud.gov during development
 All deployments require having the correct Cloud.gov credentials in place. If
