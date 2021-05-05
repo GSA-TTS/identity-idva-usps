@@ -32,4 +32,4 @@ jobs:
       - name: Test with Pytest unit tests
         run: |
           export DEBUG=True
-          pytest usps/tests.py
+          python -m pytest

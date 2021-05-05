@@ -5,11 +5,12 @@
 ![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
 
 # GIVE USPS Address Validation Microservice
-The USPS microservice is a Python Django application that uses the Django Rest
-Framework to expose an API for address validation functions to GIVE.
+The USPS microservice is a Python [FastAPI](https://fastapi.tiangolo.com/)
+application that exposes an API for address verification functions to GIVE
+via the USPS AII API.
 
 ## Why this project
-The GIVE USPS microservice aims to provide address validation capabilites to
+The GIVE USPS microservice aims to provide address verification capabilites to
 the GIVE API via its upstream USPS integration. The USPS microservice has
 the following goals:
 * Expose the USPS address verification endpoints to GIVE users
@@ -43,41 +44,16 @@ python -m pip install -r requirements-dev.txt
 pre-commit install
 ```
 
-### Required environment variables
-The Django settings.py file for this project requires setting an environment
-variable: `SECRET_KEY`
-
-Running the following in your shell should print a secret key that can be used.
-```shell
-python
-import secrets
-secrets.token_urlsafe()
-exit()
-
-```
-
-Set the environment variable using *the entire output* (including quotes) from
-the printed secret
-```shell
-# BASH-like shells
-export SECRET_KEY=<your-secret-here>
-```
-```powershell
-# PowerShell
-$Env:SECRET_KEY=<your-secret-here>
-```
-Note: during development, it may also be helpful to add the `DEBUG` environment
-variable and setting it to the string `True`
-
 ### Running the application
-After completing [development setup](#development-setup) and
-[environment variable setup](#required-environment-variables) you can run the
-application locally with:
+After completing [development setup](#development-setup) application locally with:
 ```shell
-python manage.py collectstatic
-python manage.py test --debug-mode
-gunicorn -b 127.0.0.1:8080 usps.wsgi
+python -m pytest # NOTE that without DEBUG=True, local unit tests will fail
+uvicorn usps.main:app
 ```
+
+### Viewing API Endpoints and documentation
+Documentation can be viewed locally by running the application and visiting
+http://127.0.0.1:8000/redoc
 
 ### Deploying to Cloud.gov during development
 All deployments require having the correct Cloud.gov credentials in place. If
@@ -89,9 +65,13 @@ a vars.yaml file that includes runtime variables referenced. For info, see
 [cloud foundry manifest files reference](https://docs.cloudfoundry.org/devguide/deploy-apps/manifest-attributes.html)
 
 Running the following `cf` command will deploy the application to cloud.gov
-`cf push --vars-file vars.yaml --var SECRET_KEY=$SECRET_KEY`.
-
-### API Endpoints
+```shell
+cf push --vars-file vars.yaml \
+  --var ROUTE=<application-route> \
+  --var TRANSACTION_ROUTE=<transaction-logging-service-route> \
+  --var USPS_SERVICE_INFO=<usps-service-info> \
+  --var USPS_TARGET_AUDIENCE=<usps-target-audience> \
+```
 
 ## Public domain
 
