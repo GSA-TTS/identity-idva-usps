@@ -9,4 +9,4 @@ repos:
     rev: 1.7.0
     hooks:
       - id: bandit
-        exclude: usps/tests.py
+        exclude: ./.venv/,./tests/
