@@ -47,7 +47,7 @@ pre-commit install
 ### Running the application
 After completing [development setup](#development-setup) application locally with:
 ```shell
-python -m pytest # Unit tests should be passing. NOTE that without DEBUG=True, local unit tests will fail
+python -m pytest # NOTE that without DEBUG=True, local unit tests will fail
 uvicorn usps.main:app
 ```
 
