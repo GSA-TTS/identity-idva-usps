@@ -6,7 +6,7 @@ client = TestClient(app)
 
 
 def usps_microservice_request(request):
-    """ Helper function that makes parameterized requests to the USPS Microservice. """
+    """Helper function that makes parameterized requests to the USPS Microservice."""
     return client.post(
         "/confidence_indicator",
         headers={"HTTP_X_CONSUMER_CUSTOM_ID": "test"},
@@ -15,7 +15,7 @@ def usps_microservice_request(request):
 
 
 def test_successful_response():
-    """ Test successful 200 response from USPS Microservice """
+    """Test successful 200 response from USPS Microservice"""
     request = {
         "first_name": "James",
         "last_name": "Smith",
@@ -27,7 +27,7 @@ def test_successful_response():
 
 
 def test_failed_response_missing_first_name():
-    """ Test fail 422 response from USPS Microservice with missing first_name """
+    """Test fail 422 response from USPS Microservice with missing first_name"""
 
     request = {
         "last_name": "Smith",
@@ -39,7 +39,7 @@ def test_failed_response_missing_first_name():
 
 
 def test_failed_response_missing_last_name():
-    """ Test fail 422 response from USPS Microservice with missing last_name """
+    """Test fail 422 response from USPS Microservice with missing last_name"""
 
     request = {
         "first_name": "James",
@@ -51,7 +51,7 @@ def test_failed_response_missing_last_name():
 
 
 def test_failed_response_missing_delivery_address():
-    """ Test fail 422 response from USPS Microservice with missing delivery_address """
+    """Test fail 422 response from USPS Microservice with missing delivery_address"""
 
     request = {
         "first_name": "James",
@@ -63,7 +63,7 @@ def test_failed_response_missing_delivery_address():
 
 
 def test_failed_response_missing_address_city_state_zip():
-    """ Test fail 422 response from USPS Microservice with missing address_city_state_zip """
+    """Test fail 422 response from USPS Microservice with missing address_city_state_zip"""
 
     request = {
         "first_name": "James",
