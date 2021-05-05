@@ -47,7 +47,7 @@ pre-commit install
 ### Running the application
 After completing [development setup](#development-setup) application locally with:
 ```shell
-pytest # Unit tests should be passing
+python -m pytest # Unit tests should be passing
 uvicorn usps.main:app
 ```
 
