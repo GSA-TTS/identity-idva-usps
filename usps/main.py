@@ -16,7 +16,6 @@ from pydantic import BaseModel
 from google.oauth2 import service_account
 from google.auth.transport.requests import Request
 from usps import settings
-from usps import transaction_log
 
 app = FastAPI()
 
@@ -92,12 +91,6 @@ async def confidence_indicator(
 
     try:
         async with ClientSession(headers=headers) as session:
-            log_response = await transaction_log.create_transaction(
-                session, http_x_consumer_custom_id
-            )
-            if log_response.status_code != HTTPStatus.CREATED:
-                return transaction_log.transaction_unavailable_response
-
             async with session.post(
                 USPS_URL, data=address_verification_info.dict(), ssl=sslcontext
             ) as response:
