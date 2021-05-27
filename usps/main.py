@@ -15,10 +15,14 @@ from aiohttp import ClientSession, ClientError
 from pydantic import BaseModel
 from google.oauth2 import service_account
 from google.auth.transport.requests import Request
+from starlette_prometheus import metrics, PrometheusMiddleware
 from usps import settings
 from usps import transaction_log
 
 app = FastAPI()
+
+app.add_middleware(PrometheusMiddleware)
+app.add_route("/metrics/", metrics)
 
 
 class AddressVerificationInfo(BaseModel):
