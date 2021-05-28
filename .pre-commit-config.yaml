@@ -1,7 +1,7 @@
 ---
 repos:
   - repo: https://github.com/psf/black
-    rev: 21.5b1
+    rev: 21.5b1 # Update with 'pre-commit autoupdate'
     hooks:
       - id: black
 
