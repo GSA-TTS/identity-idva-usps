@@ -8,7 +8,6 @@ applications:
     buildpacks:
       - python_buildpack
     env:
-      TRANSACTION_ROUTE: ((TRANSACTION_ROUTE))
       DISABLE_COLLECTSTATIC: 1
       USPS_SERVICE_INFO: ((USPS_SERVICE_INFO))
       USPS_TARGET_AUDIENCE: ((USPS_TARGET_AUDIENCE))
