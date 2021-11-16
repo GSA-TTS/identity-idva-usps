@@ -8,6 +8,6 @@ import os
 # DEBUG set is set to True if env var is "True"
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-# Deployment-specific settings
-USPS_SERVICE_INFO = os.environ.get("USPS_SERVICE_INFO", {})
-USPS_TARGET_AUDIENCE = os.environ.get("USPS_TARGET_AUDIENCE", {})
+USPS_CLIENT_ID = os.environ.get("USPS_CLIENT_ID")
+USPS_CLIENT_SECRET = os.environ.get("USPS_CLIENT_SECRET")
+USPS_URL = os.environ.get("USPS_URL")
