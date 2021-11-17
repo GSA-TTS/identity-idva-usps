@@ -2,7 +2,6 @@
 USPS Microservice FastAPI Web App.
 """
 
-import json
 import logging
 import time
 import requests
