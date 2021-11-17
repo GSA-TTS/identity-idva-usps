@@ -6,8 +6,8 @@ import os
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG set is set to True if env var is "True"
-DEBUG = os.environ.get("DEBUG", "False") == "True"
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
-USPS_CLIENT_ID = os.environ.get("USPS_CLIENT_ID")
-USPS_CLIENT_SECRET = os.environ.get("USPS_CLIENT_SECRET")
-USPS_URL = os.environ.get("USPS_URL")
+USPS_CLIENT_ID = os.getenv("USPS_CLIENT_ID")
+USPS_CLIENT_SECRET = os.getenv("USPS_CLIENT_SECRET")
+USPS_URL = os.getenv("USPS_URL")
