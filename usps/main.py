@@ -69,11 +69,13 @@ def get_token():
     )
     if auth_response.status_code == HTTPStatus.OK:
         app.expires = (
-            int(auth_response.json["issued_at"]) // 1000
-            + int(auth_response.json["expires_in"])
+            # Convert issued_at ms timestamp to seconds, add token lifetime, subtract 60 seconds
+            # to get expiration timestamp
+            int(auth_response.json()["issued_at"]) // 1000
+            + int(auth_response.json()["expires_in"])
             - 60
         )
-        app.token = auth_response.json["access_token"]
+        app.token = auth_response.json()["access_token"]
     else:
         logging.error(
             f"Failed to refresh token: {auth_response.status_code} {auth_response.text}"
@@ -119,6 +121,6 @@ async def confidence_indicator(address_verification_info: AddressVerificationInf
         return JSONResponse(
             status_code=HTTPStatus.INTERNAL_SERVER_ERROR,
             content={
-                "error": "A server error occurred while makeing address validation request"
+                "error": "Server error occurred while making an address validation request"
             },
         )
