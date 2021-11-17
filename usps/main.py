@@ -68,14 +68,19 @@ def get_token():
         access_token_url, auth=HTTPBasicAuth(client_id, client_secret), verify=True
     )
     if auth_response.status_code == HTTPStatus.OK:
-        app.expires = (
-            # Convert issued_at ms timestamp to seconds, add token lifetime, subtract 60 seconds
-            # to get expiration timestamp
-            int(auth_response.json()["issued_at"]) // 1000
-            + int(auth_response.json()["expires_in"])
-            - 60
-        )
-        app.token = auth_response.json()["access_token"]
+        try:
+            app.expires = (
+                # Convert issued_at ms timestamp to seconds, add token lifetime, subtract 60 seconds
+                # to get expiration timestamp
+                int(auth_response.json()["issued_at"]) // 1000
+                + int(auth_response.json()["expires_in"])
+                - 60
+            )
+            app.token = auth_response.json()["access_token"]
+        except (ValueError, KeyError):
+            logging.error(
+                f"Failed to refresh token: {auth_response.status_code} {auth_response.text}"
+            )
     else:
         logging.error(
             f"Failed to refresh token: {auth_response.status_code} {auth_response.text}"
