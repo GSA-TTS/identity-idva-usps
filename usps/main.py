@@ -101,7 +101,7 @@ async def confidence_indicator(address_verification_info: AddressVerificationInf
         logging.debug("Skipping network requests while in debug mode")
         return JSONResponse(
             {
-                "uid": "5738f577-d283-49ec-9695-32b106c049d8",
+                "uid": address_verification_info.uid,
                 "confidence_indicator": "50.00",
             }
         )

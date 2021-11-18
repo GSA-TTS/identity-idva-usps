@@ -1,10 +1,11 @@
 """ USPS API unit tests """
 from fastapi.testclient import TestClient
 from usps.main import app
+import uuid
 
 client = TestClient(app)
 
-TEST_UID = "5738f577-d283-49ec-9695-32b106c049d8"
+TEST_UID = str(uuid.uuid4())
 
 
 def usps_microservice_request(request):
