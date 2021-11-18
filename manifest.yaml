@@ -2,12 +2,13 @@
 applications:
   - name: usps
     routes:
-      - route: ((ROUTE))
+      - route: identity-idva-usps-((ENVIRONMENT)).apps.internal
     memory: ((MEMORY))
     instances: ((INSTANCES))
     buildpacks:
       - python_buildpack
+    command: uvicorn usps.main:app --host 0.0.0.0 --port $PORT
     env:
-      DISABLE_COLLECTSTATIC: 1
-      USPS_SERVICE_INFO: ((USPS_SERVICE_INFO))
-      USPS_TARGET_AUDIENCE: ((USPS_TARGET_AUDIENCE))
+      USPS_CLIENT_ID: ((USPS_CLIENT_ID))
+      USPS_CLIENT_SECRET: ((USPS_CLIENT_SECRET))
+      USPS_URL: ((USPS_URL))
