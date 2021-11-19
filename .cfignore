@@ -1,4 +1,10 @@
 *.md
 .venv/
-api/__pycache__/
 usps/__pycache__/
+.bandit
+.codeclimate.yml 
+.github
+.pre-commit-config.yaml
+requirements-dev.txt
+tests/
+vars.yaml
