@@ -1,4 +1,4 @@
-aiohttp ~= 3.8
+aiohttp ~= 3.9
 twisted[tls, http2]
 google-auth
 requests
